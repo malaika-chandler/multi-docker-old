@@ -15,6 +15,11 @@ after_success:
   - docker build -t malaika/multi-server ./server
   - docker build -t malaika/multi-worker ./worker
 
-# Log into the Docker CLI
+  # Log into the Docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
-# Push the created images up to Docker Hub
+  # Push the created images up to Docker Hub
+  - docker push malaika/multi-client
+  - docker push malaika/multi-nginx
+  - docker push malaika/multi-server
+  - docker push malaika/multi-worker
