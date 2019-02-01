@@ -1,0 +1,20 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build -t malaika/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run malaika/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t malaika/multi-client ./client
+  - docker build -t malaika/multi-nginx ./nginx
+  - docker build -t malaika/multi-server ./server
+  - docker build -t malaika/multi-worker ./worker
+
+# Log into the Docker CLI
+
+# Push the created images up to Docker Hub
